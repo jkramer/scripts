@@ -1,0 +1,29 @@
+#!/bin/bash
+# Copyright (C) 2011 by Jonas Kramer. All rights reserved.
+# Published under the terms of the GNU General Public License (GPL).
+# --
+# Create shortened URLs using http://is.gd/ and cURL.
+# Takes each argument as an URL and prints a shortened version of it. If no
+# arguments are given, URLs are read from standard input instead, one URL per
+# line.
+
+shorten_url () {
+	URL="$1"
+
+	curl \
+		--silent \
+		--form-string 'format=simple' \
+		--form-string "url=$URL" \
+		'http://is.gd/create.php'
+}
+
+if [ $# -gt 0 ]; then
+	while [ $# -gt 0 ]; do
+		shorten_url "$1"
+		shift
+	done
+else
+	while read URL; do
+		shorten_url "$URL"
+	done
+fi
