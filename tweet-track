@@ -1,0 +1,23 @@
+#!/bin/bash
+# Copyright (C) 2011 by Jonas Kramer. All rights reserved.
+# Published under the terms of the GNU General Public License (GPL).
+# --
+# Tweet what you're listening to right now. Written for use with Shell.FM. Add
+# this to your ~/.shell-fm/shell-fm.rc to bind this script to 'Z':
+#
+# key0x5A = tweet-track %a %t %T
+#
+
+
+ARTIST="$1"
+TRACK="$2"
+TRACK_URL="$3"
+
+TWEET="♫ Now playing \"$TRACK\" by $ARTIST (via Shell.FM)"
+
+if [ ! -z "$TRACK_URL" ]; then
+	SHORT_TRACK_URL="`short-url "$TRACK_URL"`"
+	TWEET="$TWEET $SHORT_TRACK_URL"
+fi
+
+ttyter -status="$TWEET" &>/dev/null
