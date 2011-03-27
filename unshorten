@@ -1,0 +1,11 @@
+#!/bin/bash
+# Unshorten URLs from URL shortening services like is.gd, bit.ly etc. Prints
+# the unshortened URL for each given URL. Prints the given URL if there's no
+# redirect (i.e. the URL was not a short URL).
+
+for URL in $@; do
+	curl -I "$URL" -s \
+		| awk -v URL="$URL" '/^Location: .*$/ { URL=$2 } END { print URL }'
+done
+
+
